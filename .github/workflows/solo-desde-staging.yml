@@ -1,0 +1,16 @@
+name: Origen del PR a main
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  solo-desde-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar que el PR viene de staging
+        if: github.head_ref != 'staging' || github.event.pull_request.head.repo.full_name != github.repository
+        run: |
+          echo "::error::Solo se permiten PRs a main desde la rama staging (este viene de '${{ github.head_ref }}')."
+          exit 1
+      - run: echo "OK, el PR viene de staging."
