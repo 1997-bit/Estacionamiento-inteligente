@@ -1,6 +1,7 @@
 import config
-import time
 import datetime
+import random
+import parking
 
 
 def generar_placa():
@@ -58,20 +59,30 @@ def obtener_historial(historial, placa):
 
 
 def simular_entrada(autos_dentro, historial, tarifa=None):
-    """Simula la entrada de un auto y retorna (placa, evento)"""
+    """Registra una entrada simulada y devuelve placa y evento."""
     placa = generar_placa()
+    while placa in autos_dentro:
+        placa = generar_placa()
     evento = evento_entrada(placa, tarifa)
-    historial = agregar_a_historial(historial, placa, evento)
-    autos_dentro = parking.registrar_entrada(autos_dentro, placa)
+    parking.registrar_entrada(autos_dentro, placa)
+    agregar_a_historial(historial, placa, evento)
     return autos_dentro, historial, placa, evento
 
 
 def simular_salida(autos_dentro, historial, tarifa=None):
-    """Simula la salida de un auto y retorna (placa, evento, autos_actualizados)"""
-    placa = generar_placa()
+    """Retira un auto que esté dentro y guarda el evento de salida."""
+    if not autos_dentro:
+        return autos_dentro, historial, None, None
+    placa = random.choice(autos_dentro)
+    return registrar_salida(autos_dentro, historial, placa, tarifa)
+
+
+def registrar_salida(autos_dentro, historial, placa, tarifa=None):
+    """Registra la salida de una placa específica que esté dentro."""
+    placa = placa.strip().upper() if isinstance(placa, str) else placa
     evento_sal = evento_salida(placa, tarifa=tarifa)
-    historial = agregar_a_historial(historial, placa, evento_sal)
-    autos_dentro = parking.registrar_salida(autos_dentro, placa)
+    parking.registrar_salida(autos_dentro, placa)
+    agregar_a_historial(historial, placa, evento_sal)
     return autos_dentro, historial, placa, evento_sal
 
 

@@ -1,5 +1,5 @@
 import config
-
+import random
 
 def validar_lista_autos(autos_dentro):
     """Valida que autos_dentro sea una lista"""
@@ -75,3 +75,43 @@ def espacios_libres(autos_dentro):
 
     libres = config.CAPACIDAD_MAX - espacios_ocupados(autos_dentro)
     return max(libres, 0)
+
+def asignar_espacios(espacios):
+    """Busca un espacio libre aleatorio y lo devuelve."""
+    
+    espaciosLibres = []
+    
+    for numero in range(1, config.CAPACIDAD_MAX + 1):
+        espacio = f"P-{numero:02d}"
+
+        if espacio not in espacios.values():0
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+            espaciosLibres.append(espacio)
+        
+    if espaciosLibres:
+        return random.choice(espaciosLibres)
+    return None
