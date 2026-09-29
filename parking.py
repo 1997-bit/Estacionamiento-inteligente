@@ -1,16 +1,8 @@
 import config
 import random
 
-def validar_lista_autos(autos_dentro):
-    """Valida que autos_dentro sea una lista"""
-    if not isinstance(autos_dentro, list):
-        raise ValueError("autos_dentro debe ser una lista")
-
-
 def registrar_entrada(autos_dentro, placa):
     """Registra un auto y devuelve la lista actualizada"""
-    validar_lista_autos(autos_dentro)
-
     if not isinstance(placa, str) or not placa.strip():
         raise ValueError("La placa debe ser un texto no vacio")
 
@@ -28,8 +20,6 @@ def registrar_entrada(autos_dentro, placa):
 
 def registrar_salida(autos_dentro, placa):
     """Retira un auto y devuelve la lista actualizada"""
-    validar_lista_autos(autos_dentro)
-
     if not isinstance(placa, str) or not placa.strip():
         raise ValueError("La placa debe ser un texto no vacio")
 
@@ -44,14 +34,11 @@ def registrar_salida(autos_dentro, placa):
 
 def espacios_ocupados(autos_dentro):
     """Devuelve la cantidad de espacios ocupados"""
-    validar_lista_autos(autos_dentro)
     return len(autos_dentro)
 
 
 def porcentaje_ocupacion(autos_dentro):
     """Calcula el porcentaje de espacios ocupados"""
-    validar_lista_autos(autos_dentro)
-
     if config.CAPACIDAD_MAX <= 0:
         raise ValueError("La capacidad maxima debe ser mayor que cero")
 
@@ -71,8 +58,6 @@ def estado_estacionamiento(autos_dentro):
 
 def espacios_libres(autos_dentro):
     """Calcula cuantos espacios quedan libres."""
-    validar_lista_autos(autos_dentro)
-
     libres = config.CAPACIDAD_MAX - espacios_ocupados(autos_dentro)
     return max(libres, 0)
 
