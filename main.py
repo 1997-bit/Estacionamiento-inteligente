@@ -84,6 +84,21 @@ def pedir_entero(pregunta):
     return int(respuesta)
 
 
+def formatear_historial(historial):
+    """Devuelve el historial agrupado por placa y ordenado cronológicamente."""
+    if not historial:
+        return "Historial vacío: no se registraron eventos."
+
+    lineas = ["Historial de movimientos:"]
+    for placa, eventos_placa in historial.items():
+        lineas.append(f"Placa {placa}:")
+        for indice, (placa_evento, hora, tarifa) in enumerate(eventos_placa):
+            tipo = "Entrada" if indice % 2 == 0 else "Salida"
+            momento = hora.strftime("%d/%m/%Y %H:%M:%S")
+            lineas.append(f"  - {tipo}: {momento} | Tarifa: ${tarifa:.2f}")
+    return "\n".join(lineas)
+
+
 def ejecutar_consola():
     """Mantiene el flujo original de preguntas y operaciones en consola."""
     while True:
@@ -109,6 +124,7 @@ def ejecutar_consola():
             placa, espacio = registrar_salida()
             if placa is None:
                 imprimir("No hay autos para sacar")
+                break
             else:
                 imprimir("Vehiculo saliendo...")
                 imprimir(f"Placa: {placa}")
@@ -131,7 +147,7 @@ def ejecutar_consola():
             break
 
     with bloqueo:
-        imprimir(f"Historial: {historia}")
+        imprimir(formatear_historial(historia))
 
 
 def iniciar():
