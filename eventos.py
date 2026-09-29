@@ -21,21 +21,14 @@ def generar_placa():
     return placa
 
 
-def evento_entrada(placa, tarifa=None):
-    """Crea un tupla de evento de entrada (placa, hora, tarifa)"""
-    hora = datetime.datetime.now()
-    if tarifa is None:
-        tarifa = config.TARIFA_HORA
-    return (placa, hora, tarifa)
+def evento_entrada(placa):
+    """Crea la tupla (placa, hora de entrada, tarifa)."""
+    return (placa, datetime.datetime.now(), config.TARIFA_HORA)
 
 
-def evento_salida(placa, hora_salida=None, tarifa=None):
-    """Crea un tupla de evento de salida (placa, hora, tarifa)"""
-    if hora_salida is None:
-        hora_salida = datetime.datetime.now()
-    if tarifa is None:
-        tarifa = config.TARIFA_HORA
-    return (placa, hora_salida, tarifa)
+def evento_salida(placa):
+    """Crea la tupla (placa, hora de salida, tarifa)."""
+    return (placa, datetime.datetime.now(), config.TARIFA_HORA)
 
 
 def inicializar_historial():
