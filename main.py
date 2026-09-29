@@ -8,8 +8,8 @@ import interfaz
 def ejecutar_consola():
     """Mantiene el flujo original de preguntas y operaciones en consola."""
     while True:
-        entran = ayuda.pedir_entero("Cuantos autos entran?")
-        salen = ayuda.pedir_entero("Cuantos autos salen?")
+        entran = ayuda.pedir_entero("Cuantos autos entran? ")
+        salen = ayuda.pedir_entero("Cuantos autos salen? ")
 
         contador = 0
         while contador < entran:
@@ -40,8 +40,8 @@ def ejecutar_consola():
         ayuda.imprimir(f"Porcentaje de ocupacion: {datos['ocupacion']:.1f}%")
         ayuda.imprimir(f"Estado: {datos['estado']}")
 
-        ayuda.mensajes.put("otro ciclo? s n")
-        continuar = input("otro ciclo? s n").lower()
+        ayuda.mensajes.put("otro ciclo? s n ")
+        continuar = input("otro ciclo? s n ").lower()
         ayuda.mensajes.put(continuar)
         if continuar != "s":
             break
