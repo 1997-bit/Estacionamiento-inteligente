@@ -49,19 +49,3 @@ def agregar_a_historial(historial, placa, evento):
         historial[placa] = []
     historial[placa].append(evento)
     return historial
-
-
-def obtener_historial(historial, placa):
-    """Obtiene el historial de eventos de una placa"""
-    return historial.get(placa, [])
-
-
-def mostrar_historial_placa(historial, placa):
-    """Muestra el historial formateado de una placa"""
-    eventos = obtener_historial(historial, placa)
-    if not eventos:
-        return f"No hay eventos para la placa {placa}"
-    resultado = f"Historial de {placa}:\n"
-    for i, (p, h, t) in enumerate(eventos, 1):
-        resultado += f"  {i}. Hora: {h.strftime('%H:%M:%S')} | Tarifa: ${t:.2f} | {'Entrada' if any(e[0] == p and e[1] < h for e in eventos) else 'Salida'}\n"
-    return resultado.strip()
