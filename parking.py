@@ -2,34 +2,13 @@ import config
 import random
 
 def registrar_entrada(autos_dentro, placa):
-    """Registra un auto y devuelve la lista actualizada"""
-    if not isinstance(placa, str) or not placa.strip():
-        raise ValueError("La placa debe ser un texto no vacio")
-
-    placa = placa.strip().upper()
-
-    if placa in autos_dentro:
-        raise ValueError("El auto ya esta dentro del estacionamiento")
-
-    if espacios_ocupados(autos_dentro) >= config.CAPACIDAD_MAX:
-        raise ValueError("El estacionamiento esta lleno")
-
+    """Agrega la placa a la lista de autos dentro."""
     autos_dentro.append(placa)
-    return autos_dentro
 
 
 def registrar_salida(autos_dentro, placa):
-    """Retira un auto y devuelve la lista actualizada"""
-    if not isinstance(placa, str) or not placa.strip():
-        raise ValueError("La placa debe ser un texto no vacio")
-
-    placa = placa.strip().upper()
-
-    if placa not in autos_dentro:
-        raise ValueError("El auto no se encuentra en el estacionamiento.")
-
+    """Quita la placa de la lista de autos dentro."""
     autos_dentro.remove(placa)
-    return autos_dentro
 
 
 def espacios_ocupados(autos_dentro):
