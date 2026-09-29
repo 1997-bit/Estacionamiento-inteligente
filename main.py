@@ -2,6 +2,7 @@
 import threading
 
 import ayuda
+import interfaz
 
 
 def ejecutar_consola():
@@ -50,8 +51,6 @@ def ejecutar_consola():
 
 def iniciar():
     """Ejecuta la consola en segundo plano y Tkinter en el hilo principal."""
-    import interfaz
-
     ayuda.mensajes.put("Sistema iniciado. Usa la consola para registrar entradas y salidas.")
     hilo_consola = threading.Thread(target=ejecutar_consola, daemon=True)
     hilo_consola.start()

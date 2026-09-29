@@ -70,8 +70,3 @@ def iniciar_interfaz(obtener_resumen, obtener_mensajes):
 
     actualizar()
     ventana.mainloop()
-
-
-if __name__ == "__main__":
-    import main
-    main.iniciar()
