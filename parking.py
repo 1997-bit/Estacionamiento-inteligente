@@ -1,6 +1,7 @@
 import config
 import random
 
+
 def registrar_entrada(autos_dentro, placa):
     """Agrega la placa a la lista de autos dentro."""
     autos_dentro.append(placa)
@@ -18,9 +19,6 @@ def espacios_ocupados(autos_dentro):
 
 def porcentaje_ocupacion(autos_dentro):
     """Calcula el porcentaje de espacios ocupados"""
-    if config.CAPACIDAD_MAX <= 0:
-        raise ValueError("La capacidad maxima debe ser mayor que cero")
-
     return espacios_ocupados(autos_dentro) / config.CAPACIDAD_MAX * 100
 
 
@@ -37,20 +35,17 @@ def estado_estacionamiento(autos_dentro):
 
 def espacios_libres(autos_dentro):
     """Calcula cuantos espacios quedan libres."""
-    libres = config.CAPACIDAD_MAX - espacios_ocupados(autos_dentro)
-    return max(libres, 0)
+    return config.CAPACIDAD_MAX - espacios_ocupados(autos_dentro)
+
 
 def asignar_espacios(espacios):
     """Busca un espacio libre aleatorio y lo devuelve."""
-    
-    espaciosLibres = []
-    
+    libres = []
     for numero in range(1, config.CAPACIDAD_MAX + 1):
         espacio = f"P-{numero:02d}"
-
         if espacio not in espacios.values():
-            espaciosLibres.append(espacio)
-        
-    if espaciosLibres:
-        return random.choice(espaciosLibres)
+            libres.append(espacio)
+
+    if libres:
+        return random.choice(libres)
     return None
