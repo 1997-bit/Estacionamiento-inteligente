@@ -2,9 +2,8 @@
 
 import random
 import threading
-from queue import Empty, Queue
+from queue import Queue
 
-import config
 import eventos
 import parking
 
@@ -57,18 +56,15 @@ def obtener_resumen():
             "libres": parking.espacios_libres(autos_dentro),
             "ocupacion": parking.porcentaje_ocupacion(autos_dentro),
             "estado": parking.estado_estacionamiento(autos_dentro),
-            "capacidad": config.CAPACIDAD_MAX,
         }
 
 
 def obtener_mensajes():
     """Entrega los mensajes pendientes a la consola gráfica."""
     pendientes = []
-    while True:
-        try:
-            pendientes.append(mensajes.get_nowait())
-        except Empty:
-            return pendientes
+    while not mensajes.empty():
+        pendientes.append(mensajes.get())
+    return pendientes
 
 
 def imprimir(mensaje):
@@ -92,7 +88,7 @@ def formatear_historial(historial):
     lineas = ["Historial de movimientos:"]
     for placa, eventos_placa in historial.items():
         lineas.append(f"Placa {placa}:")
-        for indice, (placa_evento, hora, tarifa) in enumerate(eventos_placa):
+        for indice, (_, hora, tarifa) in enumerate(eventos_placa):
             tipo = "Entrada" if indice % 2 == 0 else "Salida"
             momento = hora.strftime("%d/%m/%Y %H:%M:%S")
             lineas.append(f"  - {tipo}: {momento} | Tarifa: ${tarifa:.2f}")
