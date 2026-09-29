@@ -84,32 +84,7 @@ def asignar_espacios(espacios):
     for numero in range(1, config.CAPACIDAD_MAX + 1):
         espacio = f"P-{numero:02d}"
 
-        if espacio not in espacios.values():0
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        if espacio not in espacios.values():
             espaciosLibres.append(espacio)
         
     if espaciosLibres:

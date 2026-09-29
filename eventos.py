@@ -7,7 +7,6 @@ import parking
 def generar_placa():
     """Genera una placa aleatoria para simulación.
     Formato panameño: puede ser dos letras + 4 numeros O todas numericas."""
-    import random
     letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     nums = "0123456789"
     # Elegir aleatoriamente el formato: 2 letras + 4 numeros O 6 numeros
