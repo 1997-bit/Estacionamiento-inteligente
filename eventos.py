@@ -1,12 +1,11 @@
 import config
-import time
 import datetime
+import random
 
 
 def generar_placa():
     """Genera una placa aleatoria para simulación.
     Formato panameño: puede ser dos letras + 4 numeros O todas numericas."""
-    import random
     letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     nums = "0123456789"
     # Elegir aleatoriamente el formato: 2 letras + 4 numeros O 6 numeros
@@ -22,26 +21,14 @@ def generar_placa():
     return placa
 
 
-def evento_entrada(placa, tarifa=None):
-    """Crea un tupla de evento de entrada (placa, hora, tarifa)"""
-    hora = datetime.datetime.now()
-    if tarifa is None:
-        tarifa = config.TARIFA_HORA
-    return (placa, hora, tarifa)
+def evento_entrada(placa):
+    """Crea la tupla (placa, hora de entrada, tarifa)."""
+    return (placa, datetime.datetime.now(), config.TARIFA_HORA)
 
 
-def evento_salida(placa, hora_salida=None, tarifa=None):
-    """Crea un tupla de evento de salida (placa, hora, tarifa)"""
-    if hora_salida is None:
-        hora_salida = datetime.datetime.now()
-    if tarifa is None:
-        tarifa = config.TARIFA_HORA
-    return (placa, hora_salida, tarifa)
-
-
-def inicializar_historial():
-    """Inicializa el diccionario de historial de placas"""
-    return {}
+def evento_salida(placa):
+    """Crea la tupla (placa, hora de salida, tarifa)."""
+    return (placa, datetime.datetime.now(), config.TARIFA_HORA)
 
 
 def agregar_a_historial(historial, placa, evento):
@@ -49,38 +36,3 @@ def agregar_a_historial(historial, placa, evento):
     if placa not in historial:
         historial[placa] = []
     historial[placa].append(evento)
-    return historial
-
-
-def obtener_historial(historial, placa):
-    """Obtiene el historial de eventos de una placa"""
-    return historial.get(placa, [])
-
-
-def simular_entrada(autos_dentro, historial, tarifa=None):
-    """Simula la entrada de un auto y retorna (placa, evento)"""
-    placa = generar_placa()
-    evento = evento_entrada(placa, tarifa)
-    historial = agregar_a_historial(historial, placa, evento)
-    autos_dentro = parking.registrar_entrada(autos_dentro, placa)
-    return autos_dentro, historial, placa, evento
-
-
-def simular_salida(autos_dentro, historial, tarifa=None):
-    """Simula la salida de un auto y retorna (placa, evento, autos_actualizados)"""
-    placa = generar_placa()
-    evento_sal = evento_salida(placa, tarifa=tarifa)
-    historial = agregar_a_historial(historial, placa, evento_sal)
-    autos_dentro = parking.registrar_salida(autos_dentro, placa)
-    return autos_dentro, historial, placa, evento_sal
-
-
-def mostrar_historial_placa(historial, placa):
-    """Muestra el historial formateado de una placa"""
-    eventos = obtener_historial(historial, placa)
-    if not eventos:
-        return f"No hay eventos para la placa {placa}"
-    resultado = f"Historial de {placa}:\n"
-    for i, (p, h, t) in enumerate(eventos, 1):
-        resultado += f"  {i}. Hora: {h.strftime('%H:%M:%S')} | Tarifa: ${t:.2f} | {'Entrada' if any(e[0] == p and e[1] < h for e in eventos) else 'Salida'}\n"
-    return resultado.strip()
