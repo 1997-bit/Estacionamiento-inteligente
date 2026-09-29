@@ -74,10 +74,18 @@ def imprimir(mensaje):
 
 
 def pedir_entero(pregunta):
-    mensajes.put(pregunta)
-    respuesta = input(pregunta)
-    mensajes.put(respuesta)
-    return int(respuesta)
+    """Pide un número entero positivo; repite si el valor es inválido."""
+    while True:
+        mensajes.put(pregunta)
+        respuesta = input(pregunta)
+        mensajes.put(respuesta)
+
+        if respuesta.startswith("-"):
+            imprimir("No se permiten numeros negativos")
+        elif not respuesta.isdigit():
+            imprimir("Valor invalido, escribe un numero entero")
+        else:
+            return int(respuesta)
 
 
 def formatear_historial(historial):
