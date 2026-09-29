@@ -10,7 +10,7 @@ import parking
 
 
 autos_dentro = []
-historia = eventos.inicializar_historial()
+historia = {}
 espacios = {}
 mensajes = Queue()
 bloqueo = threading.Lock()

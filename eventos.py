@@ -31,14 +31,8 @@ def evento_salida(placa):
     return (placa, datetime.datetime.now(), config.TARIFA_HORA)
 
 
-def inicializar_historial():
-    """Inicializa el diccionario de historial de placas"""
-    return {}
-
-
 def agregar_a_historial(historial, placa, evento):
     """Agrega un evento al historial de una placa"""
     if placa not in historial:
         historial[placa] = []
     historial[placa].append(evento)
-    return historial
