@@ -1,37 +1,61 @@
-import random
-import eventos
-import parking
+
+import threading
+
+import ayuda
+import interfaz
 
 
-autos_dentro = []
-historia =  eventos.inicializar_historial()
+def ejecutar_consola():
+    """Mantiene el flujo original de preguntas y operaciones en consola."""
+    while True:
+        entran = ayuda.pedir_entero("Cuantos autos entran? ")
+        salen = ayuda.pedir_entero("Cuantos autos salen? ")
 
-while True:
-    entran = int(input("Cuantos autos entran? "))
-    salen = int(input("Cuantos autos salen? "))
+        contador = 0
+        while contador < entran:
+            placa, espacio = ayuda.registrar_entrada()
+            if espacio is None:
+                ayuda.imprimir("No hay espacios disponibles")
+                break
+            ayuda.imprimir("Vehiculo entrando...")
+            ayuda.imprimir(f"Placa: {placa}")
+            ayuda.imprimir(f"Espacio asignado: {espacio}")
+            contador += 1
 
-    contador = 0
-    while contador < entran:
-        placa = eventos.generar_placa()
-        parking.registrar_entrada(autos_dentro, placa)
-        evento = eventos.evento_entrada(placa)
-        eventos.agregar_a_historial(historia, placa, evento)
-        contador = contador + 1
+        contador = 0
+        while contador < salen:
+            placa, espacio = ayuda.registrar_salida()
+            if placa is None:
+                ayuda.imprimir("No hay autos para sacar")
+                break
+            else:
+                ayuda.imprimir("Vehiculo saliendo...")
+                ayuda.imprimir(f"Placa: {placa}")
+                ayuda.imprimir(f"Espacio liberado: {espacio}")
+            contador += 1
 
-    contador = 0
-    while contador < salen:
-        if autos_dentro:
-            placa = random.choice(autos_dentro)
-            parking.registrar_salida(autos_dentro, placa)
-            evento = eventos.evento_salida(placa)
-            eventos.agregar_a_historial(historia, placa, evento)
-        else:
-            print("No hay autos para sacar")
-        contador = contador + 1
+        datos = ayuda.obtener_resumen()
+        ayuda.imprimir(f"Autos dentro: {datos['autos']}")
+        ayuda.imprimir(f"Espacios libres: {datos['libres']}")
+        ayuda.imprimir(f"Porcentaje de ocupacion: {datos['ocupacion']:.1f}%")
+        ayuda.imprimir(f"Estado: {datos['estado']}")
 
-    print("Autos dentro:", autos_dentro)
+        ayuda.mensajes.put("otro ciclo? s n ")
+        continuar = input("otro ciclo? s n ").lower()
+        ayuda.mensajes.put(continuar)
+        if continuar != "s":
+            break
 
-    if input("otro ciclo? s n") != "s":
-        break
+    ayuda.imprimir_historial()
 
-print("Historial:", historia)
+
+def iniciar():
+    """Ejecuta la consola en segundo plano y Tkinter en el hilo principal."""
+    ayuda.mensajes.put("Sistema iniciado. Usa la consola para registrar entradas y salidas.")
+    hilo_consola = threading.Thread(target=ejecutar_consola, daemon=True)
+    hilo_consola.start()
+    interfaz.iniciar_interfaz(ayuda.obtener_resumen, ayuda.obtener_mensajes)
+
+
+if __name__ == "__main__":
+    iniciar()
